@@ -1,3 +1,4 @@
+using UnityEngine;
 public class Produkt // Ggf. vererben zu TeeProdukt
 {
     // Eigenschaften
@@ -5,7 +6,7 @@ public class Produkt // Ggf. vererben zu TeeProdukt
     public string Name;
 
     // Gesammelte Infos
-    private string[] namen = ["Nudeln","Name1", "Name2", "usw.."];
+    private string[] namen = {"Nudeln", "Name1", "Name2", "usw.."};
     //private 
     #region Konstruktor
     public Produkt(int _typ)

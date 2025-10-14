@@ -1,12 +1,14 @@
+using UnityEngine;
+using System.Collections;
 public class Kunde : MonoBehaviour
-{   
+{
     #region Instanzvariablen
     private float timer;
     private Produkt[] bestellungen;
     private int anzahlBestellungen;
 
     // Mood-Alkohol-Mechanics??
-    [Range(0,1f)]
+    [Range(0, 1f)]
     private float stimmung;
     private int alter;
 
@@ -20,7 +22,7 @@ public class Kunde : MonoBehaviour
     #endregion
 
     #region Accessoren
-    public float timer
+    public float Timer
     {
         get => timer;
         private set => timer = value;
@@ -34,7 +36,7 @@ public class Kunde : MonoBehaviour
 
     #region MonoBehaviour
     private void Awake()
-    { 
+    {
         // Zeit-Management
         timer = 0;
 
@@ -43,11 +45,10 @@ public class Kunde : MonoBehaviour
         moodCoroutine = StartCoroutine(AktualisiereMood());
 
         // Bestellungen
-        Random rand = new Random();
-        anzahlBestellungen = rand.Next(1, 4); // 1 = inklusive, 4 = exklusive -> ergibt 1, 2 oder 3
+        anzahlBestellungen = Random.Range(1, 4); // 1 = inklusive, 4 = exklusive -> ergibt 1, 2 oder 3
         bestellungen = new Produkt[anzahlBestellungen];
 
-        
+
     }
     private void Update()
     {
@@ -71,13 +72,12 @@ public class Kunde : MonoBehaviour
     #endregion
     public void SetRandomBestellungen(Produkt[] _bestellungen, bool NutzeNudelRezepte = true)
     {
-        Random rand = new Random();
         int untergrenzeRandom = NutzeNudelRezepte ? 0 : 1; // Wenn Nudel ja, dann Nudelrezept auf 0 mit einbeziehen, Konzept WIP
 
         for (int i = 0; i < anzahlBestellungen; i++)
         {
             // Random Bestellung auf Basis des integers definieren
-            _bestellungen[i] = new Produkt(rand.Next(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE));
+            _bestellungen[i] = new Produkt(Random.Range(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE));
         }
     }
 
@@ -87,7 +87,7 @@ public class Kunde : MonoBehaviour
         while (true)
         {
             // mood = aktueller Timerwert relativ zur Startzeit (0 bis 1)
-            mood = Mathf.Clamp01(timer / timerZuBeginn);
+            stimmung = Mathf.Clamp01(timer / timerZuBeginn);
 
             // falls du magst, hier eine kleine Debug-Ausgabe:
             // Debug.Log($"Mood: {mood:F2}");
@@ -96,7 +96,7 @@ public class Kunde : MonoBehaviour
             if (timer <= 0)
             {
                 timer = 0;
-                mood = 0;
+                stimmung = 0;
                 yield break; // Coroutine endet hier
             }
 
