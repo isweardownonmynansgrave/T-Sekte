@@ -70,14 +70,15 @@ public class Kunde : MonoBehaviour
         StopMoodCoroutine();
     }
     #endregion
-    public void SetRandomBestellungen(Produkt[] _bestellungen, bool NutzeNudelRezepte = true)
+    public void SetRandomBestellungen(Produkt[] _bestellungen, bool NutzeAlkoholRezepte = true)
     {
-        int untergrenzeRandom = NutzeNudelRezepte ? 0 : 1; // Wenn Nudel ja, dann Nudelrezept auf 0 mit einbeziehen, Konzept WIP
+        int untergrenzeRandom = NutzeAlkoholRezepte ? 0 : 1; // Wenn Alkohol ja, dann Alkoholrezept auf 0 mit einbeziehen, Konzept WIP
+        //Random.Range(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE)
 
         for (int i = 0; i < anzahlBestellungen; i++)
         {
             // Random Bestellung auf Basis des integers definieren
-            _bestellungen[i] = new Produkt(Random.Range(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE));
+            _bestellungen[i] = GameManager.ErstelleProdukt(Random.Range(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE));
         }
     }
 
