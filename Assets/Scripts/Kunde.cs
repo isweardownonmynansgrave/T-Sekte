@@ -1,5 +1,6 @@
 public class Kunde : MonoBehaviour
-{
+{   
+    #region Instanzvariablen
     private float timer;
     private Produkt[] bestellungen;
     private int anzahlBestellungen;
@@ -11,8 +12,12 @@ public class Kunde : MonoBehaviour
 
     // Verwaltung
     public bool DebugMode = false;
-    public int ANZAHL_UNIQUE_REZEPTE = 10;
+    public int ANZAHL_UNIQUE_REZEPTE = 10; // Später aus Liste fetchen?
     private float timerZuBeginn;
+
+    // Coroutinen
+    private Coroutine moodCoroutine;      // Referenz zur laufenden Coroutine
+    #endregion
 
     #region Accessoren
     public float timer
@@ -35,13 +40,14 @@ public class Kunde : MonoBehaviour
 
         // Mood..
         stimmung = 1f;
-
+        moodCoroutine = StartCoroutine(AktualisiereMood());
 
         // Bestellungen
         Random rand = new Random();
         anzahlBestellungen = rand.Next(1, 4); // 1 = inklusive, 4 = exklusive -> ergibt 1, 2 oder 3
         bestellungen = new Produkt[anzahlBestellungen];
 
+        
     }
     private void Update()
     {
@@ -53,19 +59,58 @@ public class Kunde : MonoBehaviour
                 Debug.Log("Kunde - Timer < 0!!");
         }
     }
-    #endregion
-    public void SetRandomBestellungen(bool NutzeNudelRezepte = false)
+    private void OnDisable()
     {
-        int[] randomProduktZahlen = new int[anzahlBestellungen];
+        StopMoodCoroutine();
+    }
+
+    private void OnDestroy()
+    {
+        StopMoodCoroutine();
+    }
+    #endregion
+    public void SetRandomBestellungen(Produkt[] _bestellungen, bool NutzeNudelRezepte = true)
+    {
         Random rand = new Random();
         int untergrenzeRandom = NutzeNudelRezepte ? 0 : 1; // Wenn Nudel ja, dann Nudelrezept auf 0 mit einbeziehen, Konzept WIP
-        for (int i = 0; i < anzahlBestellungen; i++)
-            randomProduktZahlen[i] = rand.Next(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE);
 
         for (int i = 0; i < anzahlBestellungen; i++)
         {
             // Random Bestellung auf Basis des integers definieren
-            bestellungen[i] = new Produkt(randomProduktZahlen[i]);
+            _bestellungen[i] = new Produkt(rand.Next(untergrenzeRandom, ANZAHL_UNIQUE_REZEPTE));
         }
     }
+
+    #region Coroutines
+    private IEnumerator AktualisiereMood()
+    {
+        while (true)
+        {
+            // mood = aktueller Timerwert relativ zur Startzeit (0 bis 1)
+            mood = Mathf.Clamp01(timer / timerZuBeginn);
+
+            // falls du magst, hier eine kleine Debug-Ausgabe:
+            // Debug.Log($"Mood: {mood:F2}");
+
+            // Wenn Timer abgelaufen ist, brich Schleife oder pausiere
+            if (timer <= 0)
+            {
+                timer = 0;
+                mood = 0;
+                yield break; // Coroutine endet hier
+            }
+
+            // warte bis zum nächsten Frame
+            yield return null;
+        }
+    }
+    private void StopMoodCoroutine()
+    {
+        if (moodCoroutine != null)
+        {
+            StopCoroutine(moodCoroutine);
+            moodCoroutine = null;
+        }
+    }
+    #endregion
 }
