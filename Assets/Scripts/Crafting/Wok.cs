@@ -43,11 +43,11 @@ public class Wok : MonoBehaviour
         }
         else
         {
-            
+
         }
     }
     #endregion
-    
+
     #region Kochen
     public void BeginneKochen()
     {
@@ -55,6 +55,13 @@ public class Wok : MonoBehaviour
         istWokBefuellt = true;
         istEssenFertig = false;
         Timer = TimerZuBeginn;
+    }
+    public Produkt GetFertigesProdukt()
+    {
+        if (istEssenFertig)
+            return Ergebnis;
+        else
+            return null;
     }
     #endregion
 }
