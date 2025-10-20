@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     #region Instanzvariablen
+    // Verwaltung
+    public bool DebugMode = true;
+
     // Crafting
     public int MaximaleZutaten = 2;
     public static int Index_Produkt_ProdsAlkoholfrei = 6;
@@ -78,6 +82,8 @@ public class GameManager : MonoBehaviour
     // Durch Init befüllte Arrays/Listen
     private static Zutat[] zutatenListe;
     private static List<Rezept> rezeptListe;
+    public static Dictionary<string, Sprite> juiceSprites;
+    public static Dictionary<string, Sprite> bubbleSprites;
     #endregion
     #endregion
 
@@ -144,8 +150,54 @@ public class GameManager : MonoBehaviour
                 count++;
             }
         }
-        
+
         // Nudeln - To be discussed
+    }
+    private void InitSpriteDicts()
+    {
+        string teePfad = "TeeSprites";
+        string bubblesPfad = "BubbleSprites";
+        // Tee/Saft Sprites
+         // Alle Sprites im angegebenen Ordner laden
+        Sprite[] sprites = Resources.LoadAll<Sprite>(teePfad);
+
+        // Nullcheck & Sortierung
+        if (sprites == null || sprites.Length == 0)
+        {
+            Debug.LogWarning($"[GM/SpriteLoader] Keine Sprites gefunden unter 'Resources/{teePfad}'!");
+        }
+        if (sprites.Length != zutat_teeNamen.Length)
+        {
+            Debug.Log("[GM/SpriteLoader] Arrays für Tee-Sprites und Tee-Namen haben nicht dieselbe Länge!");
+        }
+        if (DebugMode) Debug.Log($"[GM/SpriteLoader] {sprites.Length} Sprites geladen aus 'Resources/{teePfad}'.");
+        
+        // Juice-Dict aus Array befüllen
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            juiceSprites.Add(zutat_teeNamen[i], sprites[i]);
+        }
+
+
+        // Bubble Sprites
+        sprites = Resources.LoadAll<Sprite>(bubblesPfad);
+
+        // Nullcheck & Sortierung
+        if (sprites == null || sprites.Length == 0)
+        {
+            Debug.LogWarning($"[GM/SpriteLoader] Keine Sprites gefunden unter 'Resources/{bubblesPfad}'!");
+        }
+        if (sprites.Length != bubblesPfad.Length)
+        {
+            Debug.LogWarning("[GM/SpriteLoader] Arrays für Tee-Sprites und Tee-Namen haben nicht dieselbe Länge!");
+        }
+        if (DebugMode) Debug.Log($"[GM/SpriteLoader] {sprites.Length} Sprites geladen aus 'Resources/{bubblesPfad}'.");
+
+        // Bubble-Dict aus Array befüllen
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            bubbleSprites.Add(zutat_bubbleNamen[i], sprites[i]);
+        }
     }
     #endregion
 
@@ -155,6 +207,7 @@ public class GameManager : MonoBehaviour
         // Crafting
         InitZutatenArray();
         InitRezeptArray(); // Basierend auf ZutatenArray
+        InitSpriteDicts(); // Via Ressources.LoadAll
     }
     private void Update()
     {
