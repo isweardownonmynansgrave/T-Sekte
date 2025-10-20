@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
     private static List<Rezept> rezeptListe;
     public static Dictionary<string, Sprite> juiceSprites;
     public static Dictionary<string, Sprite> bubbleSprites;
+    public static Dictionary<string, Sprite> nudelSprites;
     #endregion
     #endregion
 
@@ -157,6 +158,7 @@ public class GameManager : MonoBehaviour
     {
         string teePfad = "TeeSprites";
         string bubblesPfad = "BubbleSprites";
+        string nudelPfad = "NudelSprites";
         // Tee/Saft Sprites
          // Alle Sprites im angegebenen Ordner laden
         Sprite[] sprites = Resources.LoadAll<Sprite>(teePfad);
@@ -198,6 +200,13 @@ public class GameManager : MonoBehaviour
         {
             bubbleSprites.Add(zutat_bubbleNamen[i], sprites[i]);
         }
+
+        // Nudel Sprites
+        sprites = Ressources.LoadAll(nudelPfad);
+        
+        bubbleSprites.Add(zutat_nudeln[0], sprites[0]);
+        bubbleSprites.Add(produkt_produktNamen[24], sprites[1]);
+
     }
     #endregion
 
