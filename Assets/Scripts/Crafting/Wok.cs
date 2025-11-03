@@ -7,6 +7,9 @@ public class Wok : MonoBehaviour
     public Produkt Ergebnis;
     private bool istEssenFertig;
     private bool istWokBefuellt;
+    [HideInInspector]
+    public int FuellstandNudeln; // wenn fertig, zu Beginn 3
+    public int PortionenAusWok = 3;
 
 
     // Timing
@@ -32,6 +35,7 @@ public class Wok : MonoBehaviour
             {
                 // Nudeln fertig - WIP
                 istEssenFertig = true;
+                FuellstandNudeln = PortionenAusWok;
                 // Weitere Dinge tun?
             }
             else

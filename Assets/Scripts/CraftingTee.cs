@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UnityEngine;
 public class CraftingTee
 {
@@ -9,13 +8,6 @@ public class CraftingTee
 
     Sprite spriteJuice;
     Sprite spriteBubbles;
-
-    #region Konstruktor
-    public ProduktTee()
-    {
-
-    }
-    #endregion
 
     public bool SetJuice(string _name)
     {
@@ -38,6 +30,7 @@ public class CraftingTee
 
             // Am Ende Abschließen
             HatBubbles = true;
+            return true;
         }
         else
         {

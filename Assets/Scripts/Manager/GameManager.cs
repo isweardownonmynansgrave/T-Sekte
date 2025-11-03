@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 public class GameManager : MonoBehaviour
 {
@@ -202,7 +201,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Nudel Sprites
-        sprites = Ressources.LoadAll(nudelPfad);
+        sprites = Resources.LoadAll<Sprite>(nudelPfad);
         
         bubbleSprites.Add(zutat_nudeln[0], sprites[0]);
         bubbleSprites.Add(produkt_produktNamen[24], sprites[1]);
