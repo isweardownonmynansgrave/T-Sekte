@@ -119,6 +119,9 @@ public class GameManager : MonoBehaviour
             count++;
         }
         ;
+
+        if (DebugMode)
+            Console.Log($"[GM/InitZutatenArray] Arraylänge {zutatenListe.Length}");
     }
     private void InitRezeptArray()
     {
@@ -153,7 +156,7 @@ public class GameManager : MonoBehaviour
 
         // Nudeln - To be discussed
     }
-    private void InitSpriteDicts()
+    private void InitSpriteDicts() // WIP - Post-Prototyp
     {
         string teePfad = "TeeSprites";
         string bubblesPfad = "BubbleSprites";
@@ -215,7 +218,7 @@ public class GameManager : MonoBehaviour
         // Crafting
         InitZutatenArray();
         InitRezeptArray(); // Basierend auf ZutatenArray
-        InitSpriteDicts(); // Via Ressources.LoadAll
+        //InitSpriteDicts(); // Via Ressources.LoadAll - Post-Prototyp
     }
     private void Update()
     {
